@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bttc.js Example</title>
+  <script src="../../dist/bttc.js"></script>
+</head>
+<body>
+  <p>Check console.</p>
+</body>
+<script>
+    const mat = new Bttc({
+      network: 'testnet', // For mainnet change this to mainnet
+      version: 'mumbai', // For mainnet change this to v1
+    })
+  console.log("Bttc", Bttc)
+  const pos = new Bttc.BttcPOSClient({
+      network: 'testnet', // For mainnet change this to mainnet
+      version: 'mumbai', // For mainnet change this to v1
+    })
+  console.log("pos", pos)
+  const tron = new Bttc.TronWebClient({
+    fullHost: 'https://api.trongrid.io',
+  })
+  const burnHash = '0xbadbf10a33ba5ae48cfa1660e011eb15bf927773610ace9466c71d14749d4132'
+  const from = '0x4698ca96dd198ae04e6c45b199516c17c31dbc95'
+  const instance = new Bttc.TronWebClient({
+    network: 'testnet', // For mainnet change this to mainnet
+    version: 'mumbai', // For mainnet change this to v1
+  })
+  console.log("TronWebClient", tron)
+  console.log(mat.registry)
+  console.log(instance)
+
+</script>
+</html>
