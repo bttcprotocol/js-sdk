@@ -33,8 +33,12 @@ export default class POSRootChainManager extends ContractsBase {
 
   constructor(options: MaticClientInitializationOptions, rootChain: RootChain, web3Client: Web3Client) {
     super(web3Client, options.network)
+    const abi = options.network.abi('RootChainManager', 'pos')
+    if(abi && abi.length > 1 && abi[abi.length - 1].name === 'receive') {
+      delete abi[abi.length - 1].name
+    }
     this.posRootChainManager = new this.web3Client.parentWeb3.eth.Contract(
-      options.network.abi('RootChainManager', 'pos'),
+      abi,
       options.posRootChainManager || options.network.Main.POSContracts.RootChainManagerProxy
     )
     this.rootTunnelContractAbi = options.network.abi('RootTunnel', 'pos')

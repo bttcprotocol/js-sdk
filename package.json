@@ -1,6 +1,6 @@
 {
-  "name": "@bttcnetwork/bttcjs",
-  "version": "2.0.45",
+  "name": "bttcjs",
+  "version": "1.0.1",
   "description": "Javascript developer library for interacting with Bttc Network",
   "main": "dist/npm.export.js",
   "types": "dist/ts/index.d.ts",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bttcnetwork/bttc.js.git"
+    "url": "git+https://github.com/bttcprotocol/js-sdk.git"
   },
   "keywords": [
     "ethereum",
@@ -38,12 +38,12 @@
     "ethers",
     "bttc"
   ],
-  "author": "Jaynti Kanani <jd@bttc.network>",
+  "author": "Ray Wu <ray.wu@tron.network>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bttcnetwork/bttc.js/issues"
+    "url": "https://github.com/bttcprotocol/js-sdk/issues"
   },
-  "homepage": "https://github.com/bttcnetwork/bttc.js#readme",
+  "homepage": "https://github.com/bttcprotocol/js-sdk#readme",
   "dependencies": {
     "@maticnetwork/meta": "^2.4.16",
     "axios": "^0.21.1",
