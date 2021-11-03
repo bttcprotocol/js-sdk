@@ -6,7 +6,7 @@ import Web3 from 'web3'
 import TronContractsBase from '../common/TronContractsBase'
 import TronExitManager from '../common/TronExitManager'
 import TronWeb3Client from '../common/TronWeb3Client'
-import { address, MaticClientInitializationOptions, SendOptions } from '../types/Common'
+import { address, MaticClientInitializationOptions, SendOptions, burnOptions } from '../types/Common'
 import TronRootChain from './TronRootChain'
 // import { Utils } from '../common/Utils'
 
@@ -261,12 +261,18 @@ export default class POSRootChainManager extends TronContractsBase {
     return this.depositFor(user, rootToken, depositData, options)
   }
 
-  async burnERC20(childToken: address, amount: BN | string, options?: SendOptions) {
-    const childTokenContract = this.getPOSERC20TokenContract(childToken)
-    const txObject = childTokenContract.methods.withdraw(this.formatUint256(amount))
+  async burnERC20(opt: burnOptions, options?: SendOptions) {
+    const childTokenContract = this.getPOSERC20TokenContract(opt.childToken)
+    //const txObject = childTokenContract.methods.withdraw(this.formatUint256(opt.amount))
+    let txObject 
+    if(opt.withdrawTo) {
+      txObject = childTokenContract.methods.withdrawTo(opt.to, this.formatUint256(opt.amount))
+    } else {
+      txObject = childTokenContract.methods.withdraw(this.formatUint256(opt.amount))
+    }
     const web3Options = await this.web3Client.fillOptions(txObject, false /* onRootChain */, options)
     if (web3Options.encodeAbi) {
-      return Object.assign(web3Options, { data: txObject.encodeABI(), to: childToken })
+      return Object.assign(web3Options, { data: txObject.encodeABI(), to: opt.childToken })
     }
     return this.web3Client.send(txObject, web3Options, options)
   }

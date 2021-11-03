@@ -9,7 +9,7 @@ import Registry from './root/Registry'
 import RootChain from './root/RootChain'
 import TronRootChain from './root/TronRootChain'
 import WithdrawManager from './root/WithdrawManager'
-import { address, MaticClientInitializationOptions, order, SendOptions } from './types/Common'
+import { address, MaticClientInitializationOptions, order, SendOptions, burnOptions } from './types/Common'
 import { mapPromise } from './common/MapPromise'
 //import console from 'console'
 
@@ -63,18 +63,18 @@ export class BttcPOSClient extends SDKClient {
     return this.posRootChainManager.depositEtherForUser(amount, user, options)
   }
 
-  burnERC20(childToken: address, amount: BN | string, options?: SendOptions) {
-    if (!this.web3Client.web3.utils.isAddress(childToken)) {
-      throw new Error(`${childToken} is not a valid token address`)
+  burnERC20(option: burnOptions, options?: SendOptions) {
+    if (!this.web3Client.web3.utils.isAddress(option.childToken)) {
+      throw new Error(`${option.childToken} is not a valid token address`)
     }
-    if (!amount) {
+    if (!option.amount) {
       // ${amount} will stringify it while printing which might be a problem
-      throw new Error(`${amount} is not a amount`)
+      throw new Error(`${option.amount} is not a amount`)
     }
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC20(childToken, amount, options)
+    return this.posRootChainManager.burnERC20(option.childToken, option.amount, options)
   }
 
   exitERC20(txHash: string, options?: SendOptions) {
@@ -398,18 +398,18 @@ export class TronWebClient extends TronSDKClient {
     return this.posRootChainManager.depositEtherForUser(amount, user, options)
   }
 
-  burnERC20(childToken: address, amount: BN | string, options?: SendOptions) {
-    if (!this.web3Client.web3.utils.isAddress(childToken)) {
-      throw new Error(`${childToken} is not a valid token address`)
+  burnERC20(option: burnOptions, options?: SendOptions) {
+    if (!this.web3Client.web3.utils.isAddress(option.childToken)) {
+      throw new Error(`${option.childToken} is not a valid token address`)
     }
-    if (!amount) {
+    if (!option.amount) {
       // ${amount} will stringify it while printing which might be a problem
-      throw new Error(`${amount} is not a amount`)
+      throw new Error(`${option.amount} is not a amount`)
     }
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC20(childToken, amount, options)
+    return this.posRootChainManager.burnERC20(option.childToken, option.amount, options)
   }
 
   exitERC20(txHash: string, options?: SendOptions) {
