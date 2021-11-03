@@ -61,31 +61,40 @@ export default class TronExitManager extends TronContractsBase {
       this.web3Client.getMaticWeb3(),
       requestConcurrency
     )
+//     let logIndex = -1
+//
+//     switch (logEventSig) {
+//       case '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef':
+//       case '0xf94915c6d1fd521cee85359239227480c7e8776d7caf1fc3bacad5c269b66a14':
+//         logIndex = receipt.logs.findIndex(
+//           log =>
+//             log.topics[0].toLowerCase() == logEventSig.toLowerCase() &&
+//             log.topics[2].toLowerCase() == '0x0000000000000000000000000000000000000000000000000000000000000000'
+//         )
+//         break
+//
+//       case '0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62':
+//       case '0x4a39dc06d4c0dbc64b70af90fd698a233a518aa5d07e595d983b8c0526c8f7fb':
+//         logIndex = receipt.logs.findIndex(
+//           log =>
+//             log.topics[0].toLowerCase() == logEventSig.toLowerCase() &&
+//             log.topics[3].toLowerCase() == '0x0000000000000000000000000000000000000000000000000000000000000000'
+//         )
+//         break
+//
+//       default:
+//         logIndex = receipt.logs.findIndex(log => log.topics[0].toLowerCase() == logEventSig.toLowerCase())
+//     }
+//     assert.ok(logIndex > -1, 'Log not found in receipt')
+
+    // find the log index of receiver address
     let logIndex = -1
-
-    switch (logEventSig) {
-      case '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef':
-      case '0xf94915c6d1fd521cee85359239227480c7e8776d7caf1fc3bacad5c269b66a14':
-        logIndex = receipt.logs.findIndex(
-          log =>
-            log.topics[0].toLowerCase() == logEventSig.toLowerCase() &&
-            log.topics[2].toLowerCase() == '0x0000000000000000000000000000000000000000000000000000000000000000'
-        )
-        break
-
-      case '0xc3d58168c5ae7397731d063d5bbf3d657854427343f4c083240f7aacaa2d0f62':
-      case '0x4a39dc06d4c0dbc64b70af90fd698a233a518aa5d07e595d983b8c0526c8f7fb':
-        logIndex = receipt.logs.findIndex(
-          log =>
-            log.topics[0].toLowerCase() == logEventSig.toLowerCase() &&
-            log.topics[3].toLowerCase() == '0x0000000000000000000000000000000000000000000000000000000000000000'
-        )
-        break
-
-      default:
-        logIndex = receipt.logs.findIndex(log => log.topics[0].toLowerCase() == logEventSig.toLowerCase())
-    }
+    const withdrawLogSign = '0x67b714876402c93362735688659e2283b4a37fb21bab24bc759ca759ae851fd8'   // WithdrawTo(address,address,uint256)
+    logIndex = receipt.logs.findIndex(
+      log => log.topics[0].toLowerCase() == withdrawLogSign.toLowerCase()
+    )
     assert.ok(logIndex > -1, 'Log not found in receipt')
+
     const payload = this._encodePayload(
       headerBlockNumber,
       blockProof,
