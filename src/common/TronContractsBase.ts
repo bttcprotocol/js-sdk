@@ -4,6 +4,8 @@ import TronWeb3Client from './TronWeb3Client'
 
 import { address } from '../types/Common'
 import { Utils } from '../common/Utils'
+const ChildERC20 = require('./ChildERC20')
+const ChildERC721 = require('./ChildERC721')
 //import console from 'console'
 
 export default class TronContractsBase {
@@ -35,7 +37,7 @@ export default class TronContractsBase {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
     return parent
       ? { abi: this.network.abi('ChildERC20'), web3 }
-      : new web3.eth.Contract(this.network.abi('ChildERC20'), token)
+      : new web3.eth.Contract(ChildERC20/*this.network.abi('ChildERC20')*/, token)
   }
 
   public getERC721TokenContract(token: address, parent: boolean = false) {
@@ -43,7 +45,7 @@ export default class TronContractsBase {
     //return new web3.eth.Contract(this.network.abi('ChildERC721'), token)
     return parent
       ? { abi: this.network.abi('ChildERC721'), web3 }
-      : new web3.eth.Contract(this.network.abi('ChildERC721'), token)
+      : new web3.eth.Contract(ChildERC721/*this.network.abi('ChildERC721')*/, token)
   }
 
   public getChildMaticContract() {
