@@ -37,7 +37,7 @@ export default class TronContractsBase {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
     return parent
       ? { abi: this.network.abi('ChildERC20'), web3 }
-      : new web3.eth.Contract(ChildERC20/*this.network.abi('ChildERC20')*/, token)
+      : new web3.eth.Contract(this.network.abi('ChildERC20'), token)
   }
 
   public getERC721TokenContract(token: address, parent: boolean = false) {
@@ -45,7 +45,7 @@ export default class TronContractsBase {
     //return new web3.eth.Contract(this.network.abi('ChildERC721'), token)
     return parent
       ? { abi: this.network.abi('ChildERC721'), web3 }
-      : new web3.eth.Contract(ChildERC721/*this.network.abi('ChildERC721')*/, token)
+      : new web3.eth.Contract(this.network.abi('ChildERC721'), token)
   }
 
   public getChildMaticContract() {
@@ -55,16 +55,16 @@ export default class TronContractsBase {
   public getPOSERC20TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
     return parent
-      ? { abi: this.network.abi('ChildERC20', 'pos'), web3 }
-      : new web3.eth.Contract(this.network.abi('ChildERC20', 'pos'), token)
+      ? { abi: ChildERC20/*this.network.abi('ChildERC20', 'pos')*/, web3 }
+      : new web3.eth.Contract(ChildERC20/*this.network.abi('ChildERC20', 'pos')*/, token)
   }
 
   public getPOSERC721TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
     //return new web3.eth.Contract(this.network.abi('ChildERC721', 'pos'), token)
     return parent
-      ? { abi: this.network.abi('ChildERC721', 'pos'), web3 }
-      : new web3.eth.Contract(this.network.abi('ChildERC721', 'pos'), token)
+      ? { abi: ChildERC721/*this.network.abi('ChildERC721', 'pos')*/, web3 }
+      : new web3.eth.Contract(ChildERC721/*this.network.abi('ChildERC721', 'pos')*/, token)
   }
 
   public getPOSERC1155TokenContract(token: address, parent: boolean = false) {

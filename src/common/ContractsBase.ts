@@ -32,12 +32,12 @@ export default class ContractsBase {
 
   public getERC20TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
-    return new web3.eth.Contract(ChildERC20/*this.network.abi('ChildERC20')*/, token)
+    return new web3.eth.Contract(this.network.abi('ChildERC20'), token)
   }
 
   public getERC721TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
-    return new web3.eth.Contract(ChildERC721/*this.network.abi('ChildERC721')*/, token)
+    return new web3.eth.Contract(this.network.abi('ChildERC721'), token)
   }
 
   public getChildMaticContract() {
@@ -46,12 +46,12 @@ export default class ContractsBase {
 
   public getPOSERC20TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
-    return new web3.eth.Contract(this.network.abi('ChildERC20', 'pos'), token)
+    return new web3.eth.Contract(ChildERC20/*this.network.abi('ChildERC20', 'pos')*/, token)
   }
 
   public getPOSERC721TokenContract(token: address, parent: boolean = false) {
     const web3 = parent ? this.web3Client.parentWeb3 : this.web3Client.web3
-    return new web3.eth.Contract(this.network.abi('ChildERC721', 'pos'), token)
+    return new web3.eth.Contract(ChildERC721/*this.network.abi('ChildERC721', 'pos')*/, token)
   }
 
   public getPOSERC1155TokenContract(token: address, parent: boolean = false) {
