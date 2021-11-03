@@ -74,7 +74,7 @@ export class BttcPOSClient extends SDKClient {
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC20(option.childToken, option.amount, options)
+    return this.posRootChainManager.burnERC20(option, options)
   }
 
   exitERC20(txHash: string, options?: SendOptions) {
@@ -409,7 +409,7 @@ export class TronWebClient extends TronSDKClient {
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC20(option.childToken, option.amount, options)
+    return this.posRootChainManager.burnERC20(option, options)
   }
 
   exitERC20(txHash: string, options?: SendOptions) {
