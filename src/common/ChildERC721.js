@@ -1,4 +1,4 @@
-const ChildERC721 = [
+export const ChildERC721 = [
 	{
 		"inputs": [
 			{

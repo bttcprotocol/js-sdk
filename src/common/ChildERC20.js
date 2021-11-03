@@ -1,4 +1,4 @@
-const ChildERC20 = [
+export const ChildERC20 = [
 	{
 		"inputs": [
 			{
