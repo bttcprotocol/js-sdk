@@ -9,7 +9,7 @@ import Registry from './root/Registry'
 import RootChain from './root/RootChain'
 import TronRootChain from './root/TronRootChain'
 import WithdrawManager from './root/WithdrawManager'
-import { address, MaticClientInitializationOptions, order, SendOptions, burnOptions } from './types/Common'
+import { address, MaticClientInitializationOptions, order, SendOptions, burnErc20Options, burnErc721Options } from './types/Common'
 import { mapPromise } from './common/MapPromise'
 //import console from 'console'
 
@@ -63,7 +63,7 @@ export class BttcPOSClient extends SDKClient {
     return this.posRootChainManager.depositEtherForUser(amount, user, options)
   }
 
-  burnERC20(option: burnOptions, options?: SendOptions) {
+  burnERC20(option: burnErc20Options, options?: SendOptions) {
     if (!this.web3Client.web3.utils.isAddress(option.childToken)) {
       throw new Error(`${option.childToken} is not a valid token address`)
     }
@@ -144,18 +144,18 @@ export class BttcPOSClient extends SDKClient {
     return this.posRootChainManager.depositBatchERC721ForUser(rootToken, tokenIds, user, options)
   }
 
-  burnERC721(childToken: address, tokenId: BN | string, options?: SendOptions) {
-    if (!this.web3Client.web3.utils.isAddress(childToken)) {
-      throw new Error(`${childToken} is not a valid token address`)
+  burnERC721(opt: burnErc721Options, options?: SendOptions) {
+    if (!this.web3Client.web3.utils.isAddress(opt.childToken)) {
+      throw new Error(`${opt.childToken} is not a valid token address`)
     }
-    if (!tokenId) {
+    if (!opt.tokenId) {
       // ${tokenId} will stringify it while printing which might be a problem
-      throw new Error(`${tokenId} is not a tokenId`)
+      throw new Error(`${opt.tokenId} is not a tokenId`)
     }
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC721(childToken, tokenId, options)
+    return this.posRootChainManager.burnERC721(opt, options)
   }
 
   burnBatchERC721(childToken: address, tokenIds: (BN | string)[], options?: SendOptions) {
@@ -398,7 +398,7 @@ export class TronWebClient extends TronSDKClient {
     return this.posRootChainManager.depositEtherForUser(amount, user, options)
   }
 
-  burnERC20(option: burnOptions, options?: SendOptions) {
+  burnERC20(option: burnErc20Options, options?: SendOptions) {
     if (!this.web3Client.web3.utils.isAddress(option.childToken)) {
       throw new Error(`${option.childToken} is not a valid token address`)
     }
@@ -479,18 +479,18 @@ export class TronWebClient extends TronSDKClient {
     return this.posRootChainManager.depositBatchERC721ForUser(rootToken, tokenIds, user, options)
   }
 
-  burnERC721(childToken: address, tokenId: BN | string, options?: SendOptions) {
-    if (!this.web3Client.web3.utils.isAddress(childToken)) {
-      throw new Error(`${childToken} is not a valid token address`)
+  burnERC721(opt: burnErc721Options, options?: SendOptions) {
+    if (!this.web3Client.web3.utils.isAddress(opt.childToken)) {
+      throw new Error(`${opt.childToken} is not a valid token address`)
     }
-    if (!tokenId) {
+    if (!opt.tokenId) {
       // ${tokenId} will stringify it while printing which might be a problem
-      throw new Error(`${tokenId} is not a tokenId`)
+      throw new Error(`${opt.tokenId} is not a tokenId`)
     }
     if (options && !options.from) {
       throw new Error(`options.from is missing`)
     }
-    return this.posRootChainManager.burnERC721(childToken, tokenId, options)
+    return this.posRootChainManager.burnERC721(opt, options)
   }
 
   burnBatchERC721(childToken: address, tokenIds: (BN | string)[], options?: SendOptions) {

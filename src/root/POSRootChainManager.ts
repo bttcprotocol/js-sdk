@@ -4,7 +4,7 @@ import { Contract } from 'web3-eth-contract'
 import ContractsBase from '../common/ContractsBase'
 import ExitManager from '../common/ExitManager'
 import Web3Client from '../common/Web3Client'
-import { address, MaticClientInitializationOptions, SendOptions, burnOptions } from '../types/Common'
+import { address, MaticClientInitializationOptions, SendOptions, burnErc20Options, burnErc721Options } from '../types/Common'
 import RootChain from './RootChain'
 //import console from 'console'
 
@@ -210,7 +210,7 @@ export default class POSRootChainManager extends ContractsBase {
     return this.depositFor(user, rootToken, depositData, options)
   }
 
-  async burnERC20(opt: burnOptions, options?: SendOptions) {
+  async burnERC20(opt: burnErc20Options, options?: SendOptions) {
     const childTokenContract = this.getPOSERC20TokenContract(opt.childToken)
     let txObject 
     if(opt.withdrawTo) {
@@ -301,12 +301,18 @@ export default class POSRootChainManager extends ContractsBase {
     return this.depositFor(user, rootToken, depositData, options)
   }
 
-  async burnERC721(childToken: address, tokenId: BN | string, options?: SendOptions) {
-    const childTokenContract = this.getPOSERC721TokenContract(childToken)
-    const txObject = childTokenContract.methods.withdraw(this.formatUint256(tokenId))
+  async burnERC721(opt: burnErc721Options, options?: SendOptions) {
+    const childTokenContract = this.getPOSERC721TokenContract(opt.childToken)
+    let txObject 
+    if(opt.withdrawTo) {
+      txObject = childTokenContract.methods.withdrawTo(opt.to, this.formatUint256(opt.tokenId))
+    } else {
+      txObject = childTokenContract.methods.withdraw(this.formatUint256(opt.tokenId))
+    }
+    // const txObject = childTokenContract.methods.withdraw(this.formatUint256(opt.tokenId))
     const web3Options = await this.web3Client.fillOptions(txObject, false /* onRootChain */, options)
     if (web3Options.encodeAbi) {
-      return Object.assign(web3Options, { data: txObject.encodeABI(), to: childToken })
+      return Object.assign(web3Options, { data: txObject.encodeABI(), to: opt.childToken })
     }
     return this.web3Client.send(txObject, web3Options, options)
   }

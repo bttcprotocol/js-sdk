@@ -42,9 +42,16 @@ export declare interface MaticClientInitializationOptions {
   requestConcurrency?: number
 }
 
-export declare interface burnOptions {
+export declare interface burnErc20Options {
   childToken: address
   amount: BN | string
+  to?: string,
+  withdrawTo?: boolean
+}
+
+export declare interface burnErc721Options {
+  childToken: address
+  tokenId: BN | string
   to?: string,
   withdrawTo?: boolean
 }
