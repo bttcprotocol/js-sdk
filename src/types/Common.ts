@@ -1,3 +1,4 @@
+import BN from 'bn.js'
 export type address = string
 
 export declare interface SendOptions {
@@ -39,4 +40,18 @@ export declare interface MaticClientInitializationOptions {
   posERC1155Predicate?: string
   posMintableERC1155Predicate?: string
   requestConcurrency?: number
+}
+
+export declare interface burnErc20Options {
+  childToken: address
+  amount: BN | string
+  to?: string,
+  withdrawTo?: boolean
+}
+
+export declare interface burnErc721Options {
+  childToken: address
+  tokenId: BN | string
+  to?: string,
+  withdrawTo?: boolean
 }
