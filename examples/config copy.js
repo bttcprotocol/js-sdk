@@ -1,13 +1,11 @@
 // Testnet V3 config
 module.exports = {
   parent: {
-    //rpc: 'https://rpc.goerli.mudit.blog/',
-    rpc: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    rpc: 'https://rpc.goerli.mudit.blog/',
+    //rpc: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   },
   child: {
-    //rpc: 'http://47.94.0.13:8545', // This is the bttc testnet RPC
-    //rpc: 'https://test-rpc.bittorrentchain.io'
-    rpc: 'https://test1-rpc.bittorrentchain.io'
+    rpc: '', // This is the bttc testnet RPC
   },
   pos: {
     parent: {
@@ -33,20 +31,21 @@ module.exports = {
   SYNCER_URL: '', // Backend service which syncs the Bttc sidechain state to a MySQL database which we use for faster querying. This comes in handy especially for constructing withdrawal proofs while exiting assets from Plasma.
   WATCHER_URL: '', // Backend service which syncs the Bttc Plasma contract events on Ethereum mainchain to a MySQL database which we use for faster querying. This comes in handy especially for listening to asset deposits on the Plasma contract.
   user1: {
-    privateKey: '69f68f5584960f1d7e153f29b76b04e9b449754e5e1ee8c3fca318adb0637462',
-    address: '0x60F68C9B9e505946cf5102378fB55F07b812b819',
+    privateKey: '',
+    address: '',
   },
   user2: {
     address: '<paste address here>', // Your address
   },
   tronWebOptions: {
-    privateKey: '4df12b6b37734c521eadc4ce5811f27f40e8bae8d43d32804dbf580d40aebcd7',
-    address: 'TGQVLckg1gDZS5wUwPTrPgRG4U8MKC4jcP', // A sample address prefix with `T`
+    privateKey: '',
+    address: '', // A sample address prefix with `T`
     fullNode: 'https://api.nileex.io',
     solidityNode: 'https://api.nileex.io',
     eventServer: 'https://event.nileex.io',
-    rootChain: 'THqMuJHeBKYQ1yF9HG7qfyCvELZKYAvwTC', // A sample address prefix with `T`
-    posRootChainManager: 'TC7eV5sBCL1BsUBbNweWKxTxbsCoUUs2U6', // A sample address prefix with `T`
+    rootChain: 'TM9iNimxhFXbB5ReTne6Cj9U7zhXMDtzAK', // A sample address prefix with `T`
+    posRootChainManager: 'TDEMoMqt5furPNCwFDRjtU4jRt7u7XNzib', // A sample address prefix with `T`
   },
 }
+
 

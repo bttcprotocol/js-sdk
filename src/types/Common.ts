@@ -13,6 +13,7 @@ export declare interface SendOptions {
   onReceipt?: any
   onError?: any
   legacyProof?: boolean
+  extension?: number
 }
 
 export declare interface order {

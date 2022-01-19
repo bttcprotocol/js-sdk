@@ -2,7 +2,7 @@ import Web3 from 'web3'
 import { SendOptions } from '../types/Common'
 import TronWeb from 'tronweb'
 import { Utils } from '../common/Utils'
-//import console from 'console'
+import console from 'console'
 
 const logger = {
   info: require('debug')('maticjs:Web3Client'),
@@ -91,33 +91,47 @@ export default class TronWeb3Client {
   wrapWeb3Promise(promise, callbacks) {
     if (callbacks) {
       if (promise.on) {
+        console.log(`promise.on`)
         if (callbacks.onTransactionHash) {
+          console.log(`callbacks.onTransactionHash`)
           promise.on('transactionHash', callbacks.onTransactionHash)
         }
         if (callbacks.onReceipt) {
+          console.log(`callbacks.onReceipt`)
           promise.on('receipt', callbacks.onReceipt)
         }
         if (callbacks.onConfirmation) {
+          console.log(`callbacks.onConfirmation`)
           promise.on('confirmation', callbacks.onConfirmation)
         }
         if (callbacks.onError) {
+          console.log(`callbacks.onError`)
           promise.on('error', callbacks.onError)
         }
       } else {
+        console.log(`==no on===`)
         if (callbacks.onTransactionHash) {
+          console.log(`callbacks.onTransactionHash`)
           promise.then(callbacks.onTransactionHash)
         }
         if (callbacks.onReceipt) {
+          console.log(`callbacks.onReceipt`)
           promise.then(callbacks.onReceipt)
         }
         if (callbacks.onConfirmation) {
+          console.log(`callbacks.onConfirmation`)
           promise.then(callbacks.onConfirmation)
         }
         if (callbacks.onError) {
+          console.log(`callbacks.onError`)
           promise.then(callbacks.onError)
         }
       }
     }
+    promise.then((res) => {
+      console.log(`====promise===`)
+      console.log(res)
+    })  
     return promise
   }
 
@@ -136,6 +150,7 @@ export default class TronWeb3Client {
       _web3Options.gasPrice = _web3Options.gasPrice || this.maticDefaultOptions.gasPrice
     }
     logger.debug('sending tx with', { _web3Options })
+    console.log(`======send=======`)
     return this.wrapWeb3Promise(txObject.send(_web3Options), callbacks)
   }
 

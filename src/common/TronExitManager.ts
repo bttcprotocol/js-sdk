@@ -8,7 +8,7 @@ import TronContractsBase from './TronContractsBase'
 import TronRootChain from '../root/TronRootChain'
 import { MaticClientInitializationOptions } from '../types/Common'
 import Proofs from '../libs/ProofsUtil'
-//import console from 'console'
+import console from 'console'
 import Web3 from 'web3'
 const web3 = new Web3()
 const hash: Web3['utils']['soliditySha3'] = web3.utils.soliditySha3
@@ -39,6 +39,8 @@ export default class TronExitManager extends TronContractsBase {
     logger.info({ 'burnTx.blockNumber': burnTx.blockNumber, lastCheckPointedBlockNumber: lastChildBlock })
     const lastChildBlockNumber = new BN(lastChildBlock.toNumber())
     const burnTxBlockNumber = new BN(burnTx.blockNumber)
+    console.log(`lastChildBlockNumber:`,lastChildBlockNumber,lastChildBlock.toNumber())
+    console.log(`burnTxBlockNumber:`,burnTxBlockNumber,burnTx.blockNumber)
     assert.ok(lastChildBlockNumber.gte(burnTxBlockNumber), 'Burn transaction has not been checkpointed as yet')
     const headerBlockNumber = await this.rootChain.findHeaderBlockNumber(burnTx.blockNumber)
     const contract = await this.rootChain.rootChain.tronWeb.contract(

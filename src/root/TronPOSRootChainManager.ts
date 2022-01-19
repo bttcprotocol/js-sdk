@@ -1,6 +1,6 @@
 import BN from 'bn.js'
 import Web3 from 'web3'
-//import console from 'console'
+import console from 'console'
 //import { Contract } from 'web3-eth-contract'
 //import Tronweb from 'tronweb'
 import TronContractsBase from '../common/TronContractsBase'
@@ -127,16 +127,31 @@ export default class POSRootChainManager extends TronContractsBase {
     const payload = await this.exitManager.buildPayloadForExit(burnTxHash, logSignature, this.requestConcurrency)
     //const txObject = this.posRootChainManager.methods.exit(payload)
     //Private key does not match address in transaction
-    const txObject = await contract.methods.exit(payload)
-    //const txObject = await contract.methods.exit(payload).call()
-    const web3Options = await this.web3Client.fillOptions(txObject, true /* onRootChain */, options)
-    if (web3Options.encodeAbi) {
-      return Object.assign(web3Options, {
-        data: txObject.encodeABI(),
-        to: contract.address /*this.posRootChainManager.options.address*/,
-      })
+    if(options && options.extension) {
+      const tronWeb = this.posRootChainManager.tronWeb
+      const transaction = await tronWeb.transactionBuilder.triggerSmartContract(
+        this.posRootChainManager.token,
+        'exit(bytes)',
+        { feeLimit: 150000000 },
+        [ {type: 'bytes', value: payload} ]
+      )
+      const extendExpirationObj = await tronWeb.transactionBuilder.extendExpiration(transaction.transaction, options.extension)
+      const signedTransaction = await tronWeb.trx.sign(extendExpirationObj)
+      const txId = await tronWeb.trx.sendRawTransaction(signedTransaction)
+      console.log(`txId:`,txId)
+      return txId.txid
+    } else {
+      const txObject = await contract.methods.exit(payload)
+      //const txObject = await contract.methods.exit(payload).call()
+      const web3Options = await this.web3Client.fillOptions(txObject, true /* onRootChain */, options)
+      if (web3Options.encodeAbi) {
+        return Object.assign(web3Options, {
+          data: txObject.encodeABI(),
+          to: contract.address /*this.posRootChainManager.options.address*/,
+        })
+      }
+      return this.web3Client.send(txObject, web3Options, options)
     }
-    return this.web3Client.send(txObject, web3Options, options)
   }
 
   async exitFastMerkle(start: any, end: any, blockNumber: any) {
